@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/Screens/category_details.dart';
-import 'package:news_app/Screens/home_screen.dart';
-import 'package:news_app/Screens/splash_screen.dart';
+import 'package:news_app/home/home_screen.dart';
 
 void main() {
   runApp( MyApp());
@@ -14,11 +12,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        SplashScreen.routeName: (context)=> SplashScreen(),
         HomeScreen.routeName : (context)=> HomeScreen(),
-        CategoryDetails.routeName : (context)=> CategoryDetails()
       },
-      initialRoute: CategoryDetails.routeName,
+      initialRoute: HomeScreen.routeName,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.transparent,
+        primaryColor: Color.fromARGB(255, 57, 165, 82),
+        appBarTheme: AppBarTheme(
+          color: Color.fromARGB(255, 57, 165, 82),
+        )
+      ),
     );
   }
 }

@@ -5,11 +5,12 @@ import 'package:news_app/model/SourcesResponse.dart';
 
 class ApiManager{
   static const String baseUrl = 'newsapi.org';
-  static Future<SourcesResponse> getSources()async{
+  static Future<SourcesResponse> getSources(String categoryId)async{
     //call api to get new sources
     var url = Uri.https(baseUrl,"/v2/top-headlines/sources",
         {
-      'apiKey': '7a02598f55f44da2a4fda378625a3e9d'
+      'apiKey': '7a02598f55f44da2a4fda378625a3e9d',
+      'category': categoryId
         }
     );
     var response=await http.get(url);
@@ -23,11 +24,12 @@ class ApiManager{
     }
 }
 
-static Future<NewsResponse> getNews (String sourceId)async{
+static Future<NewsResponse> getNews (String sourceId,String keyWord)async{
     var url = Uri.https(baseUrl,'/v2/everything',
     {
       'apiKey': '7a02598f55f44da2a4fda378625a3e9d',
-      'sources' : sourceId
+      'sources' : sourceId,
+      'q' : keyWord
     });
     var response=await http.get(url);
     try {
@@ -39,4 +41,5 @@ static Future<NewsResponse> getNews (String sourceId)async{
       throw e;
     }
 }
+
 }

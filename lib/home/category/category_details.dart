@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/api_manager.dart';
 import 'package:news_app/model/SourcesResponse.dart';
-import 'package:news_app/tab_container.dart';
+import 'package:news_app/home/category/tab_container.dart';
+import 'package:news_app/model/category.dart';
 
+// ignore: must_be_immutable
 class CategoryDetails extends StatelessWidget {
-static const String routeName= 'cat-details';
+  Category category;
+  String keyWord;
+  CategoryDetails(this.category,this.keyWord);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('News App'),
-      ),
-      body: Column(children: [
+    return  Column(children: [
         Expanded(
-          child: FutureBuilder<SourcesResponse>(future: ApiManager.getSources(), builder: (_,snapshot){
+          child: FutureBuilder<SourcesResponse>(future: ApiManager.getSources(category.id), builder: (_,snapshot){
             if(snapshot.connectionState == ConnectionState.waiting){
               return Center(child: CircularProgressIndicator());
             }
@@ -32,11 +32,11 @@ static const String routeName= 'cat-details';
             }
             // got data from server
             var sourcesList = snapshot.data?.sources ?? [];
-            return TabContainer(sourcesList);
+            return TabContainer(sourcesList,keyWord);
 
           }),
         )
-      ],),
-    );
+      ],);
+
   }
 }

@@ -4,7 +4,10 @@
 class SourcesResponse {
   SourcesResponse({
       this.status, 
-      this.sources,this.code,this.message});
+      this.sources,
+      this.code,
+      this.message}
+      );
 
   SourcesResponse.fromJson(dynamic json) {
     status = json['status'];
@@ -49,7 +52,8 @@ class Sources {
       this.url, 
       this.category, 
       this.language, 
-      this.country,});
+      this.country,
+  });
 
   Sources.fromJson(dynamic json) {
     id = json['id'];
