@@ -5,7 +5,7 @@ import 'package:news_app/home/home_drawer.dart';
 import 'package:news_app/home/settings/settings_screen.dart';
 import 'package:news_app/home/ui/myThemeData.dart';
 import 'package:news_app/model/category.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class HomeScreen extends StatefulWidget {
   static String routeName = 'home-screen';
 
@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
             controller: _searchController,
             style: const TextStyle(color: Colors.white),
             cursorColor: Colors.white,
-            decoration: const InputDecoration(
-              hintText: 'Search...',
+            decoration:  InputDecoration(
+              hintText: AppLocalizations.of(context)!.search,
               hintStyle: TextStyle(color: Colors.white54),
               border: InputBorder.none,
             ),

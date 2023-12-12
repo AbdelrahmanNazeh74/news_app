@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Category{
   String title;
   String image;
@@ -7,7 +8,7 @@ class Category{
   static List<Category> getCategories(){
     return [
       Category('sports', 'Sports', 'assets/images/sports.png', 0xFFC91C22),
-      Category('business', 'Business', 'assets/images/bussiness.png', 0xFFCF7E48),
+      Category('business', 'Business', 'assets/images/business.png', 0xFFCF7E48),
       Category('entertainment', 'Entertainment', 'assets/images/entertainment.png', 0xFF4882CF),
       Category('health', 'Health', 'assets/images/health.png', 0xFFED1E79),
       Category('science', 'Science', 'assets/images/science.png', 0xFFF2D352),

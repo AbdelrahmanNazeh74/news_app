@@ -1,0 +1,14 @@
+{
+  "app_name": "الأخبار",
+  "sports": "الرياضة",
+  "business": "السوق",
+  "entertainment": "الترفيه",
+  "health": "الصحة",
+  "science": "العلوم",
+  "technology": "التكنولوجيا",
+  "general": "عام",
+  "search": "بحث",
+  "categories" : "الفئات",
+  "settings": "الاعدادات",
+  "message" : "اختر الاخبار التي تهتم بها"
+}

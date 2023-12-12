@@ -1,0 +1,14 @@
+{
+  "app_name": "News App",
+  "sports": "Sports",
+  "business": "Business",
+  "entertainment": "Entertainment",
+  "health": "Health",
+  "science": "Science",
+  "technology": "Technology",
+  "general": "General",
+  "search" : "Search",
+  "categories" : "Categories",
+  "settings": "Settings",
+  "message" : "Pick your category of interest"
+}
