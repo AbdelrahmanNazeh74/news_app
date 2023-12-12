@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/home/ui/myThemeData.dart';
 import 'package:news_app/model/NewsResponse.dart';
 
 // ignore: must_be_immutable
@@ -31,15 +32,21 @@ class NewsWidget extends StatelessWidget {
           ),
           Text(
             news.author ?? "",
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            style: TextStyle(
+                fontSize: 12,
+                color: MyThemeData.isDarkEnaled ? Colors.white : Colors.grey),
           ),
           Text(
             news.title ?? "",
-            style: TextStyle(fontSize: 12, color: Colors.black),
+            style: TextStyle(
+                fontSize: 12,
+                color: MyThemeData.isDarkEnaled ? Colors.white : Colors.black),
           ),
           Text(
             news.publishedAt ?? "",
-            style: TextStyle(fontSize: 18, color: Colors.grey),
+            style: TextStyle(
+                fontSize: 18,
+                color: MyThemeData.isDarkEnaled ? Colors.white : Colors.black),
             textAlign: TextAlign.end,
           ),
         ],
