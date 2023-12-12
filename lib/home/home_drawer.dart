@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class HomeDrawer extends StatelessWidget {
@@ -19,7 +20,7 @@ class HomeDrawer extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           child: Center(
               child: Text(
-            'News App',
+            AppLocalizations.of(context)!.app_name,
             style: TextStyle(color: Colors.white, fontSize: 32),
           )),
         ),
@@ -33,7 +34,7 @@ class HomeDrawer extends StatelessWidget {
               children: [
                 Icon(Icons.list_alt),
                 Text(
-                  'Categories',
+                  AppLocalizations.of(context)!.categories,
                   style: TextStyle(fontSize: 21),
                 ),
               ],
@@ -50,7 +51,7 @@ class HomeDrawer extends StatelessWidget {
               children: [
                 Icon(Icons.settings),
                 Text(
-                  'Settings',
+                  AppLocalizations.of(context)!.settings,
                   style: TextStyle(fontSize: 21),
                 ),
               ],
