@@ -12,7 +12,7 @@ TabItem(this.source,this.isSelected);
       padding: EdgeInsets.symmetric(vertical: 8,horizontal: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: isSelected? Theme.of(context).primaryColor : Colors.transparent,
+        color: isSelected? Theme.of(context).primaryColor : Colors.grey,
         border: Border.all(color: Theme.of(context).primaryColor),
 
       ),
