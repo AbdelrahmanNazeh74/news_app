@@ -6,6 +6,8 @@ import 'package:news_app/home/settings/settings_screen.dart';
 import 'package:news_app/home/ui/myThemeData.dart';
 import 'package:news_app/model/category.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:news_app/providers/settings_provider.dart';
+import 'package:provider/provider.dart';
 class HomeScreen extends StatefulWidget {
   static String routeName = 'home-screen';
 
@@ -18,9 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   String keyWord = "";
   @override
   Widget build(BuildContext context) {
+    var settingsProvider= Provider.of<SettingsProvider>(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: MyThemeData.isDarkEnaled ? Colors.black : Colors.white,
+        color: settingsProvider.currentTheme == ThemeMode.dark ? Colors.black : Colors.white,
         image: DecorationImage(
           fit: BoxFit.cover,
           image: AssetImage('assets/images/pattern.png'),
@@ -30,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: BoxDecoration(
-              color: MyThemeData.isDarkEnaled
+              color: settingsProvider.currentTheme == ThemeMode.dark
                   ? Colors.black
                   : Theme.of(context).primaryColor,
             ),
@@ -71,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onCategoryClick(Category category) {
     // if someone clicked on category
-    // to change to category detailes view
+    // to change to category details view
     selectedCategoty = category;
     setState(() {});
   }

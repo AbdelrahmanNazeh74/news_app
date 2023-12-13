@@ -43,7 +43,7 @@ class HomeDrawer extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-                        onSideMenuItemCallBack(SETTINGS);
+            onSideMenuItemCallBack(SETTINGS);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

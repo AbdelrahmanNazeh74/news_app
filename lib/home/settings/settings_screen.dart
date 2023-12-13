@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/home/settings/languageBottomSheet.dart';
 import 'package:news_app/home/settings/themeBottomSheet.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import '../../providers/settings_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
-  static const String routeName = 'stttings-screen';
+  static const String routeName = 'settings-screen';
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -12,6 +15,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -20,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Navigator.pop(context);
             },
             icon: Icon(Icons.arrow_back_ios_new)),
-        title: Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: Container(
         margin: EdgeInsets.all(12),
@@ -28,7 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Theme',
+              AppLocalizations.of(context)!.theme,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             InkWell(
@@ -46,7 +50,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       width: 1,
                     )),
                 child: Text(
-                  'Light',
+                  settingsProvider.isDarkEnabled()?
+                  AppLocalizations.of(context)!.dark:AppLocalizations.of(context)!.light,
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -57,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 18,
             ),
             Text(
-              'Language',
+              AppLocalizations.of(context)!.language,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             InkWell(
@@ -75,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       width: 1,
                     )),
                 child: Text(
-                  'English',
+                  settingsProvider.currentLocal == 'en'? "English": "العربية",
                   style: TextStyle(
                     fontSize: 18,
                   ),

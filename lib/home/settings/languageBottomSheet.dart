@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/settings_provider.dart';
 
 class LanguageBottomSheet extends StatefulWidget {
   @override
@@ -8,12 +12,29 @@ class LanguageBottomSheet extends StatefulWidget {
 class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     return Container(
       padding: EdgeInsets.all(12),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [getSelectedItem('English'), getUnselectedItem('العربية')],
+        children: [
+          InkWell(
+              onTap: () {
+                settingsProvider.changeLocal('en');
+              },
+              child: settingsProvider.currentLocal == 'en'
+                  ? getSelectedItem(AppLocalizations.of(context)!.english)
+                  : getUnselectedItem(AppLocalizations.of(context)!.english)),
+          InkWell(
+              onTap: () {
+                settingsProvider.changeLocal('ar');
+
+              },
+              child: settingsProvider.currentLocal == 'ar'
+                  ? getUnselectedItem(AppLocalizations.of(context)!.arabic)
+                  : getUnselectedItem(AppLocalizations.of(context)!.arabic))
+        ],
       ),
     );
   }
@@ -35,6 +56,10 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   }
 
   Widget getUnselectedItem(String text) {
-    return Text(text, style: TextStyle(fontSize: 24));
+    return Row(
+      children: [
+        Text(text, style: TextStyle(fontSize: 24)),
+      ],
+    );
   }
 }
