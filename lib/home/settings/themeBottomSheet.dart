@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/providers/settings_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemeBottomSheet extends StatefulWidget {
   @override
@@ -8,12 +11,28 @@ class ThemeBottomSheet extends StatefulWidget {
 class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     return Container(
       padding: EdgeInsets.all(12),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [getSelectedItem('Light'), getUnselectedItem('Dark')],
+        children: [
+          InkWell(
+              onTap: () {
+                settingsProvider.changeTheme(ThemeMode.light);
+              },
+              child: settingsProvider.isDarkEnabled()
+                  ? getUnselectedItem(AppLocalizations.of(context)!.light)
+                  : getSelectedItem(AppLocalizations.of(context)!.light)),
+          InkWell(
+              onTap: () {
+                settingsProvider.changeTheme(ThemeMode.dark);
+              },
+              child: settingsProvider.isDarkEnabled()
+                  ? getSelectedItem(AppLocalizations.of(context)!.dark)
+                  : getUnselectedItem(AppLocalizations.of(context)!.dark))
+        ],
       ),
     );
   }
@@ -35,6 +54,10 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
   }
 
   Widget getUnselectedItem(String text) {
-    return Text(text, style: TextStyle(fontSize: 24));
+    return Row(
+      children: [
+        Text(text, style: TextStyle(fontSize: 24)),
+      ],
+    );
   }
 }

@@ -10,5 +10,11 @@
   "search" : "Search",
   "categories" : "Categories",
   "settings": "Settings",
-  "message" : "Pick your category of interest"
+  "message" : "Pick your category of interest",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "language": "Language",
+  "english": "English",
+  "arabic": "Arabic"
 }
