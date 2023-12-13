@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:news_app/home/settings/settings_screen.dart';
 
 // ignore: must_be_immutable
 class HomeDrawer extends StatelessWidget {
@@ -44,6 +45,7 @@ class HomeDrawer extends StatelessWidget {
         InkWell(
           onTap: () {
             onSideMenuItemCallBack(SETTINGS);
+            Navigator.pushNamed(context, SettingsScreen.routeName);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

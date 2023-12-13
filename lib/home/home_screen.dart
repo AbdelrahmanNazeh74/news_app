@@ -86,8 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {});
       Navigator.pop(context);
     } else if (clickedItem == HomeDrawer.SETTINGS) {
-      selectedCategoty = null;
-      Navigator.pushNamed(context, SettingsScreen.routeName);
+      Navigator.pop(context);
     }
   }
 }
