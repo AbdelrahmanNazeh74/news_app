@@ -1,63 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/api_manager.dart';
-import 'package:news_app/home/ui/myThemeData.dart';
-import 'package:news_app/model/SourcesResponse.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/categoriesViewModel/category-details-cubit/category_details_cubit.dart';
+import 'package:news_app/categoriesViewModel/category-details-cubit/category_details_state.dart';
 import 'package:news_app/home/category/tab_container.dart';
 import 'package:news_app/model/category.dart';
-import 'package:provider/provider.dart';
-
-import '../../providers/settings_provider.dart';
 
 // ignore: must_be_immutable
-class CategoryDetails extends StatelessWidget {
+class CategoryDetails extends StatefulWidget {
   Category category;
-  String keyWord;
-  CategoryDetails(this.category, this.keyWord);
+  CategoryDetails(this.category);
+
+  @override
+  State<CategoryDetails> createState() => _CategoryDetailsState();
+}
+
+class _CategoryDetailsState extends State<CategoryDetails> {
+  var viewModel = CategoryDetailsViewModel();
+  @override
+  void initState() {
+    super.initState();
+    viewModel.loadSources(widget.category.id);
+  }
+
+  String? keyWord;
+
   @override
   Widget build(BuildContext context) {
-    var settingsProvider = Provider.of<SettingsProvider>(context);
-    return Container(
-      color: settingsProvider.currentTheme == ThemeMode.dark ? Colors.black : Colors.white,
-      child: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder<SourcesResponse>(
-                future: ApiManager.getSources(category.id),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Column(
-                      children: [
-                        Text('something went wrong'),
-                        ElevatedButton(
-                            onPressed: () {}, child: Text('try again'))
-                      ],
-                    );
-                  }
-                  if (snapshot.data?.status != "ok") {
-                    // server responce hase code and message
-                    return Column(
-                      children: [
-                        Text(
-                          snapshot.data?.message ?? "",
-                          style: TextStyle(
-                              color: settingsProvider.currentTheme == ThemeMode.dark
-                                  ? Colors.white
-                                  : Colors.black),
-                        ),
-                        ElevatedButton(
-                            onPressed: () {}, child: Text('try again'))
-                      ],
-                    );
-                  }
-                  // got data from server
-                  var sourcesList = snapshot.data?.sources ?? [];
-                  return TabContainer(sourcesList, keyWord);
-                }),
-          )
-        ],
-      ),
+    return BlocBuilder<CategoryDetailsViewModel, CategoryDetailsState>(
+      bloc: viewModel,
+      builder: (context, state) {
+        switch (state) {
+          case SuccessState():
+            {
+              var sourcesList = state.sourcesList;
+              return TabContainer(sourcesList!);
+            }
+          case LoadingState():
+            {
+              return Center(
+                  child: Column(
+                children: [
+                  Text(state.message),
+                  CircularProgressIndicator(),
+                ],
+              ));
+            }
+          case ErrorState():
+            {
+              return Column(
+                children: [
+                  Text(state.errorMessage),
+                  ElevatedButton(
+                      onPressed: () {
+                        viewModel.loadSources(widget.category.id);
+                      },
+                      child: Text('Try Again'))
+                ],
+              );
+            }
+        }
+      },
     );
   }
 }

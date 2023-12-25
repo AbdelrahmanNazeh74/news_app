@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/home/settings/app_event_type.dart';
+import 'package:news_app/home/settings/bloc/settings_cubit.dart';
 import 'package:news_app/home/settings/languageBottomSheet.dart';
 import 'package:news_app/home/settings/themeBottomSheet.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-import '../../providers/settings_provider.dart';
+import 'package:news_app/home/ui/myThemeData.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String routeName = 'settings-screen';
@@ -15,7 +17,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    var settingsProvider = Provider.of<SettingsProvider>(context);
+    SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -23,8 +25,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios_new)),
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: settingsCubit.state.theme == ThemeOption.Dark
+                  ? Colors.white
+                  : Colors.black,
+            )),
         title: Text(AppLocalizations.of(context)!.settings),
+        backgroundColor: settingsCubit.state.theme == ThemeOption.Dark
+            ? Colors.black
+            : MyThemeData.lightPrimary,
       ),
       body: Container(
         margin: EdgeInsets.all(12),
@@ -33,7 +43,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             Text(
               AppLocalizations.of(context)!.theme,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             InkWell(
               onTap: () {
@@ -46,14 +59,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Theme.of(context).primaryColor,
+                      color: settingsCubit.state.theme == ThemeOption.Dark
+                          ? Colors.black
+                          : MyThemeData.lightPrimary,
                       width: 1,
                     )),
                 child: Text(
-                  settingsProvider.isDarkEnabled()?
-                  AppLocalizations.of(context)!.dark:AppLocalizations.of(context)!.light,
+                  settingsCubit.state.theme == ThemeOption.Dark
+                      ? AppLocalizations.of(context)!.dark
+                      : AppLocalizations.of(context)!.light,
                   style: TextStyle(
                     fontSize: 18,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -63,7 +80,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Text(
               AppLocalizations.of(context)!.language,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             InkWell(
               onTap: () {
@@ -76,13 +96,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Theme.of(context).primaryColor,
+                      color: settingsCubit.state.theme == ThemeOption.Dark
+                          ? Colors.black
+                          : MyThemeData.lightPrimary,
                       width: 1,
                     )),
                 child: Text(
-                  settingsProvider.currentLocal == 'en'? "English": "العربية",
+                  settingsCubit.state.language == 'ar'
+                      ? AppLocalizations.of(context)!.arabic
+                      : AppLocalizations.of(context)!.english,
                   style: TextStyle(
                     fontSize: 18,
+                    color: Colors.black,
                   ),
                 ),
               ),

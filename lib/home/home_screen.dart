@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/home/categories.dart';
 import 'package:news_app/home/category/category_details.dart';
 import 'package:news_app/home/home_drawer.dart';
-import 'package:news_app/home/settings/settings_screen.dart';
+import 'package:news_app/home/settings/app_event_type.dart';
+import 'package:news_app/home/settings/bloc/settings_cubit.dart';
 import 'package:news_app/home/ui/myThemeData.dart';
 import 'package:news_app/model/category.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:news_app/providers/settings_provider.dart';
-import 'package:provider/provider.dart';
+
 class HomeScreen extends StatefulWidget {
   static String routeName = 'home-screen';
 
@@ -16,57 +16,38 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  String keyWord = "";
   @override
   Widget build(BuildContext context) {
-    var settingsProvider= Provider.of<SettingsProvider>(context);
-
+    SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     return Container(
       decoration: BoxDecoration(
-        color: settingsProvider.currentTheme == ThemeMode.dark ? Colors.black : Colors.white,
+        color: settingsCubit.state.theme == ThemeOption.Dark
+            ? Colors.black
+            : Colors.white,
         image: DecorationImage(
           fit: BoxFit.cover,
           image: AssetImage('assets/images/pattern.png'),
         ),
       ),
       child: Scaffold(
+        backgroundColor: settingsCubit.state.theme == ThemeOption.Dark
+            ? Colors.white
+            : Colors.white,
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: BoxDecoration(
-              color: settingsProvider.currentTheme == ThemeMode.dark
+              color: settingsCubit.state.theme == ThemeOption.Dark
                   ? Colors.black
-                  : Theme.of(context).primaryColor,
+                  : MyThemeData.lightPrimary,
             ),
           ),
-          title: TextField(
-            controller: _searchController,
-            style: const TextStyle(color: Colors.white),
-            cursorColor: Colors.white,
-            decoration:  InputDecoration(
-              hintText: AppLocalizations.of(context)!.search,
-              hintStyle: TextStyle(color: Colors.white54),
-              border: InputBorder.none,
-            ),
-            onChanged: (value) {
-              // Perform search functionality here
-              keyWord = value;
-            },
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                icon: Icon(Icons.search))
-          ],
         ),
         drawer: Drawer(
           child: HomeDrawer(onSideMenuItemClick),
         ),
         body: selectedCategoty == null
             ? CategoriesFragment(onCategoryClick)
-            : CategoryDetails(selectedCategoty!, keyWord),
+            : CategoryDetails(selectedCategoty!),
       ),
     );
   }

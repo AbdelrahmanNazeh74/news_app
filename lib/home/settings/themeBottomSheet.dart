@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/providers/settings_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:news_app/home/settings/app_event_type.dart';
+import 'package:news_app/home/settings/bloc/settings_cubit.dart';
+import 'package:news_app/home/ui/myThemeData.dart';
 
 class ThemeBottomSheet extends StatefulWidget {
   @override
@@ -11,7 +13,7 @@ class ThemeBottomSheet extends StatefulWidget {
 class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var settingsProvider = Provider.of<SettingsProvider>(context);
+    SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     return Container(
       padding: EdgeInsets.all(12),
       width: double.infinity,
@@ -20,18 +22,20 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
         children: [
           InkWell(
               onTap: () {
-                settingsProvider.changeTheme(ThemeMode.light);
+                BlocProvider.of<SettingsCubit>(context)
+                    .changeTheme(ThemeOption.Dark);
               },
-              child: settingsProvider.isDarkEnabled()
-                  ? getUnselectedItem(AppLocalizations.of(context)!.light)
-                  : getSelectedItem(AppLocalizations.of(context)!.light)),
+              child: settingsCubit.state.theme == ThemeOption.Light
+                  ? getUnselectedItem(AppLocalizations.of(context)!.dark)
+                  : getSelectedItem(AppLocalizations.of(context)!.dark)),
           InkWell(
               onTap: () {
-                settingsProvider.changeTheme(ThemeMode.dark);
+                BlocProvider.of<SettingsCubit>(context)
+                    .changeTheme(ThemeOption.Light);
               },
-              child: settingsProvider.isDarkEnabled()
-                  ? getSelectedItem(AppLocalizations.of(context)!.dark)
-                  : getUnselectedItem(AppLocalizations.of(context)!.dark))
+              child: settingsCubit.state.theme == ThemeOption.Dark
+                  ? getUnselectedItem(AppLocalizations.of(context)!.light)
+                  : getSelectedItem(AppLocalizations.of(context)!.light))
         ],
       ),
     );
@@ -43,11 +47,11 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
       children: [
         Text(
           text,
-          style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 24),
+          style: TextStyle(color: MyThemeData.lightPrimary, fontSize: 24),
         ),
         Icon(
           Icons.check,
-          color: Theme.of(context).primaryColor,
+          color: MyThemeData.lightPrimary,
         ),
       ],
     );

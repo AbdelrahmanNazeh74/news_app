@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-
-import '../../providers/settings_provider.dart';
+import 'package:news_app/home/settings/bloc/settings_cubit.dart';
+import 'package:news_app/home/settings/bloc/settings_state.dart';
+import 'package:news_app/home/ui/myThemeData.dart';
 
 class LanguageBottomSheet extends StatefulWidget {
   @override
@@ -12,30 +13,49 @@ class LanguageBottomSheet extends StatefulWidget {
 class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var settingsProvider = Provider.of<SettingsProvider>(context);
-    return Container(
-      padding: EdgeInsets.all(12),
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-              onTap: () {
-                settingsProvider.changeLocal('en');
-              },
-              child: settingsProvider.currentLocal == 'en'
-                  ? getSelectedItem(AppLocalizations.of(context)!.english)
-                  : getUnselectedItem(AppLocalizations.of(context)!.english)),
-          InkWell(
-              onTap: () {
-                settingsProvider.changeLocal('ar');
+    SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
 
-              },
-              child: settingsProvider.currentLocal == 'ar'
-                  ? getUnselectedItem(AppLocalizations.of(context)!.arabic)
-                  : getUnselectedItem(AppLocalizations.of(context)!.arabic))
-        ],
-      ),
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, state) {
+        return Container(
+          padding: EdgeInsets.all(12),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: () {
+                  if (settingsCubit.state.language == 'ar') {
+                    BlocProvider.of<SettingsCubit>(context)
+                        .changeLanguage('en');
+                  } else {
+                    BlocProvider.of<SettingsCubit>(context)
+                        .changeLanguage('ar');
+                  }
+                },
+                child: settingsCubit.state.language == 'en'
+                    ? getSelectedItem(AppLocalizations.of(context)!.english)
+                    : getUnselectedItem(AppLocalizations.of(context)!.english),
+              ),
+              InkWell(
+                onTap: () {
+                  if (settingsCubit.state.language == 'ar') {
+                    BlocProvider.of<SettingsCubit>(context)
+                        .changeLanguage('en');
+                  } else {
+                    BlocProvider.of<SettingsCubit>(context)
+                        .changeLanguage('ar');
+                  }
+                },
+                child: settingsCubit.state.language == 'ar'
+                    ? getSelectedItem(AppLocalizations.of(context)!.arabic)
+                    : getUnselectedItem(AppLocalizations.of(context)!.arabic),
+                // Corrected this line
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -45,11 +65,11 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
       children: [
         Text(
           text,
-          style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 24),
+          style: TextStyle(color: MyThemeData.lightPrimary, fontSize: 24),
         ),
         Icon(
           Icons.check,
-          color: Theme.of(context).primaryColor,
+          color: MyThemeData.lightPrimary,
         ),
       ],
     );

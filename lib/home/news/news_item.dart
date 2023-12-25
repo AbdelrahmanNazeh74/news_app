@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/home/ui/myThemeData.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/home/settings/app_event_type.dart';
+import 'package:news_app/home/settings/bloc/settings_cubit.dart';
 import 'package:news_app/model/NewsResponse.dart';
-import 'package:news_app/providers/settings_provider.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class NewsWidget extends StatelessWidget {
@@ -10,7 +10,7 @@ class NewsWidget extends StatelessWidget {
   NewsWidget(this.news);
   @override
   Widget build(BuildContext context) {
-    var settingsProvider = Provider.of<SettingsProvider>(context);
+    SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     return Container(
       padding: EdgeInsets.all(8),
       height: 220,
@@ -37,19 +37,25 @@ class NewsWidget extends StatelessWidget {
             news.author ?? "",
             style: TextStyle(
                 fontSize: 12,
-                color: settingsProvider.currentTheme == ThemeMode.dark ? Colors.white : Colors.grey),
+                color: settingsCubit.state.theme == ThemeOption.Dark
+                    ? Colors.white
+                    : Colors.grey),
           ),
           Text(
             news.title ?? "",
             style: TextStyle(
                 fontSize: 12,
-                color: settingsProvider.currentTheme == ThemeMode.dark ? Colors.white : Colors.black),
+                color: settingsCubit.state.theme == ThemeOption.Dark
+                    ? Colors.white
+                    : Colors.black),
           ),
           Text(
             news.publishedAt ?? "",
             style: TextStyle(
                 fontSize: 18,
-                color: settingsProvider.currentTheme == ThemeMode.dark ? Colors.white : Colors.black),
+                color: settingsCubit.state.theme == ThemeOption.Dark
+                    ? Colors.white
+                    : Colors.black),
             textAlign: TextAlign.end,
           ),
         ],
