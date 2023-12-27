@@ -7,13 +7,23 @@ import 'package:news_app/home/settings/bloc/settings_state.dart';
 import 'package:news_app/home/settings/settings_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:news_app/home/text-bloc/text_bloc.dart';
+import 'package:news_app/registration/auth_service.dart';
+import 'package:news_app/registration/login_screen.dart';
+import 'package:news_app/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final authService = AuthService(prefs);
+
+  runApp(MyApp(authService: authService));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final AuthService authService;
+
+  MyApp({required this.authService});
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -34,11 +44,13 @@ class MyApp extends StatelessWidget {
               state.language == "en" ? 'en' : 'ar',
             ),
             title: 'News App',
+            home: SplashScreen(authService: authService),
             routes: {
               HomeScreen.routeName: (context) => HomeScreen(),
-              SettingsScreen.routeName: (context) => SettingsScreen()
+              SettingsScreen.routeName: (context) => SettingsScreen(),
+              LoginScreen.routeName: (context) =>
+                  LoginScreen(authService: authService),
             },
-            initialRoute: HomeScreen.routeName,
             theme: state.theme == ThemeOption.Light
                 ? ThemeData.light()
                 : ThemeData.dark(),
