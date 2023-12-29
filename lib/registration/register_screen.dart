@@ -92,6 +92,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
                   }
+<<<<<<< HEAD
+=======
+                  // You can add email validation logic here
+>>>>>>> origin/master
                   return null;
                 },
               ),
@@ -144,6 +148,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
+<<<<<<< HEAD
+=======
+      // Send registration data to the backend
+>>>>>>> origin/master
       final response = await http.post(
         Uri.parse('http://your-backend-api-url/register'),
         body: {
