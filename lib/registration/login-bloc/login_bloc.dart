@@ -1,9 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/registration/login-bloc/user_login_event.dart';
-import 'package:news_app/registration/login-bloc/user_login_state.dart';
-import 'package:news_app/registration/reposoitory/auth_repository.dart';
-
 // Bloc
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/registration/auth_repository.dart';
+import 'package:news_app/registration/login-bloc/login_event.dart';
+import 'package:news_app/registration/login-bloc/login_state.dart';
+
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository;
 
@@ -22,5 +22,4 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginFailure(error: 'Login failed'));
     }
   }
- 
 }

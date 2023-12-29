@@ -1,6 +1,6 @@
+// States
 import 'package:equatable/equatable.dart';
 
-// States
 abstract class LoginState extends Equatable {
   const LoginState();
 
