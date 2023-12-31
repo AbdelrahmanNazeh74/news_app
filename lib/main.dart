@@ -9,7 +9,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:news_app/home/text-bloc/text_bloc.dart';
 import 'package:news_app/registration/auth_repository.dart';
 import 'package:news_app/registration/login-bloc/login_bloc.dart';
-import 'package:news_app/registration/login-bloc/login_state.dart';
 import 'package:news_app/registration/login_screen.dart';
 
 void main() {
@@ -43,22 +42,7 @@ class MyApp extends StatelessWidget {
               state.language == "en" ? 'en' : 'ar',
             ),
             title: 'News App',
-            home: BlocProvider(
-              create: (context) => LoginBloc(authRepository: authRepository),
-              child: BlocBuilder<LoginBloc, LoginState>(
-                builder: (context, state) {
-                  if (state is LoginLoading) {
-                    return const CircularProgressIndicator();
-                  } else if (state is LoginSuccess) {
-                    return HomeScreen();
-                  } else if (state is LoginFailure) {
-                    return Text('Login failed: ${state.error}');
-                  } else {
-                    return LoginScreen();
-                  }
-                },
-              ),
-            ),
+            home: LoginScreen(),
             routes: {
               HomeScreen.routeName: (context) => HomeScreen(),
               SettingsScreen.routeName: (context) => SettingsScreen(),

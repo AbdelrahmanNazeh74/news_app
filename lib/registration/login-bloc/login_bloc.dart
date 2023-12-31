@@ -19,7 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await authRepository.login(event.username, event.password);
       emit(LoginSuccess());
     } catch (e) {
-      emit(LoginFailure(error: 'Login failed'));
+      emit(const LoginFailure(error: 'Login failed'));
     }
   }
 }
