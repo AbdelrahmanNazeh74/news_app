@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/home/home_screen.dart';
 import 'package:news_app/home/ui/myThemeData.dart';
-import 'package:news_app/registration/customs/login_button.dart';
-import 'package:news_app/registration/customs/password_field.dart';
+import 'package:news_app/registration/customs/defaultButton.dart';
+import 'package:news_app/registration/customs/default_form_field.dart';
 import 'package:news_app/registration/customs/text.dart';
-import 'package:news_app/registration/customs/username_field.dart';
 import 'package:news_app/registration/login-bloc/login_bloc.dart';
 import 'package:news_app/registration/login-bloc/login_event.dart';
 import 'package:news_app/registration/login-bloc/login_state.dart';
 
+// ignore: must_be_immutable
 class LoginScreen extends StatefulWidget {
   static String routeName = 'login-screen';
 
@@ -20,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool obscureText = true;
   @override
   Widget build(BuildContext context) {
     final LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
@@ -83,17 +84,48 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    UserNameTextField(
-                      userNameController: userNameController,
+                    DefaultFormField(
+                      controller: userNameController,
+                      type: TextInputType.emailAddress,
+                      validate: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email address';
+                        }
+                        return null;
+                      },
+                      label: 'Email Address',
+                      prefix: Icons.email_outlined,
                     ),
                     const SizedBox(height: 16.0),
-                    PasswordTextField(
-                      passwordController: passwordController,
+                    DefaultFormField(
+                      controller: passwordController,
+                      type: TextInputType.visiblePassword,
+                      suffix: Icons.visibility_outlined,
+                      suffixPressed: () {
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
+                      validate: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                      label: 'Password',
+                      prefix: Icons.lock_outline,
                     ),
                     const SizedBox(height: 32.0),
-                    LoginButton(
-                        usernameController: userNameController,
-                        passwordController: passwordController),
+                    DefaultButton(
+                      onPressed: () {
+                        BlocProvider.of<LoginBloc>(context)
+                            .add(LoginButtonPressed(
+                          username: userNameController.text,
+                          password: passwordController.text,
+                        ));
+                      },
+                      text: 'login',
+                    ),
                   ],
                 ),
               ),
